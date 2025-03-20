@@ -19,7 +19,7 @@ def countsplit_adata(adata, data_dist="NB", beta_key="nb_overdisp", mean_key="nb
         beta = adata.var[beta_key]
         dir = np.concatenate(
             [np.random.default_rng(seed).dirichlet(alpha=[epsilon * beta[j], (1 - epsilon) * beta[j]], size=(n, 1)) for j in
-             range(p)], axis=1)
+            range(p)], axis=1)
         X_res = np.random.default_rng(seed).multinomial(count_data, dir)
         X_train = X_res[:, :, 0]
         X_test = X_res[:, :, 1]
@@ -53,8 +53,6 @@ def countsplit_adata(adata, data_dist="NB", beta_key="nb_overdisp", mean_key="nb
 
     sc.pp.calculate_qc_metrics(adata_test, var_type="PCs", percent_top=None, log1p=True, inplace=True)
     adata_test.layers["counts"] = adata_test.X.copy()
-
-
 
     if data_dist == "NB":
         adata_train.var["nb_mean"] = adata_train.var[mean_key] * epsilon

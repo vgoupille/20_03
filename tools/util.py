@@ -4,14 +4,29 @@ import scanpy as sc
 from scipy.stats import median_abs_deviation
 
 
-def convert_to_dense_counts(adata, layer=None, convert_to_integer=True):
+# def convert_to_dense_counts(adata, layer=None, convert_to_integer=True):
 
+#     if layer is None:
+#         count_data = adata.X
+#     else:
+#         count_data = adata.layers[layer]
+
+#     if type(count_data) == sps._csr.csr_matrix:
+#         count_data = count_data.toarray()
+
+#     if convert_to_integer:
+#         count_data = count_data.astype(int)
+
+#     return count_data
+
+
+def convert_to_dense_counts(adata, layer=None, convert_to_integer=True):
     if layer is None:
         count_data = adata.X
     else:
         count_data = adata.layers[layer]
 
-    if type(count_data) == sps._csr.csr_matrix:
+    if sps.issparse(count_data):
         count_data = count_data.toarray()
 
     if convert_to_integer:
